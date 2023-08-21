@@ -3,16 +3,19 @@ import enum
 import os.path
 import sys
 
-from BGLogger.tools.BGConsole import BGC
+from BGLogger.BGConsole import BGC
 
-def raise_exception(message: str, e: Exception = None):
-    if e is None:
-        raise Exception(f'FATAL EXCEPTION HAS BEEN RAISED! Message: {message}')
-    raise e
+class ExitController:
 
-def exit(message: str, e: Exception = None):
-    sys.exit(1)
+    @staticmethod
+    def raise_exception(message: str, e: Exception = None):
+        if e is None:
+            raise Exception(f'FATAL EXCEPTION HAS BEEN RAISED! Message: {message}')
+        raise e
 
+    @staticmethod
+    def exit(message: str, e: Exception = None):
+        sys.exit(1)
 
 class OutputStyle(enum.Enum):
     BOLD = BGC.Param.BOLD
@@ -20,8 +23,8 @@ class OutputStyle(enum.Enum):
     REGULAR = BGC.Param.NULL
 
 class ExitType(enum.Enum):
-    RAISE_EXCEPTION = raise_exception
-    EXIT = exit
+    RAISE_EXCEPTION = ExitController.raise_exception
+    EXIT = ExitController.exit
 
 class Log:
 
