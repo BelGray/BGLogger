@@ -1,4 +1,4 @@
-from module.BGLogger import *
+from BGLogger.BGLogger import *
 
 log = Log(process_name='TESTING LOG SYSTEM', record=True, return_every_log=False, output_style=OutputStyle.UNDERLINE, color=True)
 

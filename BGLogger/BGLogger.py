@@ -3,7 +3,7 @@ import enum
 import os.path
 import sys
 
-from module.tools.BGConsole import BGC
+from BGLogger.tools.BGConsole import BGC
 
 def raise_exception(message: str, e: Exception = None):
     if e is None:
