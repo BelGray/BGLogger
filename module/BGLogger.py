@@ -25,7 +25,7 @@ class ExitType(enum.Enum):
 
 class Log:
 
-    __version__ = "1.1.0"
+    __version__ = "1.2.0"
     __github__ = "https://github.com/BelGray/BGLogger"
 
     def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle, color: bool):
