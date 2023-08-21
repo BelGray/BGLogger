@@ -28,7 +28,8 @@ class Log:
     __version__ = "1.1.0"
     __github__ = "https://github.com/BelGray/BGLogger"
 
-    def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle):
+    def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle, color: bool):
+        self.__color = color
         self.__logs_str = f"---*--- \"{process_name}\" LOGGING RESULT ---*---"
         self.__param = output_style.value
         self.__name = process_name
@@ -65,7 +66,7 @@ class Log:
         log_str = f"\nDEBUG -*- {log_time} -*- [{tag}]   '{message}'"
         if self.__record:
             self.__logs_str += log_str
-        BGC.write(log_str, param=self.__param, color=BGC.Color.CYAN)
+        BGC.write(log_str, param=self.__param, color=BGC.Color.CYAN if self.__color else None)
         if self.returning:
             return log_str
 
@@ -76,7 +77,7 @@ class Log:
         log_str = f"\nINFO -*- {log_time} -*- [{tag}]   '{message}'"
         if self.__record:
             self.__logs_str += log_str
-        BGC.write(log_str, param=self.__param, color=BGC.Color.BLUE)
+        BGC.write(log_str, param=self.__param, color=BGC.Color.BLUE if self.__color else None)
         if self.returning:
             return log_str
 
@@ -87,7 +88,7 @@ class Log:
         log_str = f"\nWARNING -*- {log_time} -*- [{tag}]   '{message}'"
         if self.__record:
             self.__logs_str += log_str
-        BGC.write(log_str, param=self.__param, color=BGC.Color.MUSTARD)
+        BGC.write(log_str, param=self.__param, color=BGC.Color.MUSTARD if self.__color else None)
         if self.returning:
             return log_str
 
@@ -98,7 +99,7 @@ class Log:
         log_str = f"\nERROR -*- {log_time} -*- [{tag}]   '{message}'"
         if self.__record:
             self.__logs_str += log_str
-        BGC.write(log_str, param=self.__param, color=BGC.Color.RED)
+        BGC.write(log_str, param=self.__param, color=BGC.Color.RED if self.__color else None)
         if self.returning:
             return log_str
 
@@ -109,7 +110,7 @@ class Log:
         log_str = f"\nSUCCESS -*- {log_time} -*- [{tag}]   '{message}'"
         if self.__record:
             self.__logs_str += log_str
-        BGC.write(log_str, param=self.__param, color=BGC.Color.GREEN)
+        BGC.write(log_str, param=self.__param, color=BGC.Color.GREEN if self.__color else None)
         if self.returning:
             return log_str
 
@@ -120,5 +121,5 @@ class Log:
         log_str = f"\nFATAL -*- {log_time} -*- [{tag}]   '{message}'"
         if self.__record:
             self.__logs_str += log_str
-        BGC.write(log_str, param=self.__param, color=BGC.Color.CRIMSON)
+        BGC.write(log_str, param=self.__param, color=BGC.Color.CRIMSON if self.__color else None)
         exit_type(message, exception)

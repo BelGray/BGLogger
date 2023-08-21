@@ -1,6 +1,6 @@
 from module.BGLogger import *
 
-log = Log(process_name='TESTING LOG SYSTEM', record=True, return_every_log=False, output_style=OutputStyle.BOLD)
+log = Log(process_name='TESTING LOG SYSTEM', record=True, return_every_log=False, output_style=OutputStyle.UNDERLINE, color=True)
 
 log.d(tag='TEST', message='DEBUG LOG IS COOL')
 log.i(tag='TEST', message='INFO LOG IS COOL')
