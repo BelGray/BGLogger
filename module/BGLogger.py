@@ -25,6 +25,9 @@ class ExitType(enum.Enum):
 
 class Log:
 
+    __version__ = "1.1.0"
+    __github__ = "https://github.com/BelGray/BGLogger"
+
     def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle):
         self.__logs_str = f"---*--- \"{process_name}\" LOGGING RESULT ---*---"
         self.__param = output_style.value
