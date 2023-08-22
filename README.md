@@ -7,7 +7,7 @@ Before using the module, you have to first install it. You can do this using the
 pip install BGLogger
 ```
 Or you can move the BGLogger package from repository to your project.
-## Get startet
+## Get started
 You should initialize instance of the Log class. In the module, each instance of the Log class refers to a specific process. It means you must name every logging process.
 ```python
 log = Log(process_name='SOME PROCESS', record=True, return_every_log=False, output_style=OutputStyle.UNDERLINE, color=True)
@@ -61,4 +61,46 @@ log.e(tag='TEST', message='ERROR LOG IS COOL')
 log.s(tag='TEST', message='SUCCESS LOG IS COOL')
 log.w(tag='TEST', message='WARNING LOG IS COOL')
 log.f(tag='TEST', message='OH NO! FATAL EXCEPTION!!!', exit_type=ExitType.RAISE_EXCEPTION)
+```
+## Save logs to a file
+To save logs to a file you should call `save_logs_to_file()`, which has the following argument:
+|argument|type|description|
+|--------|----|-----------|
+|file_name|str|The file where the logs will be saved|
+
+Example:
+```python
+from BGLogger.BGLogger import *
+
+log = Log(process_name='TESTING LOG SYSTEM', record=True, return_every_log=False, output_style=OutputStyle.UNDERLINE, color=True)
+
+log.d(tag='TEST', message='DEBUG LOG IS COOL')
+log.i(tag='TEST', message='INFO LOG IS COOL')
+log.e(tag='TEST', message='ERROR LOG IS COOL')
+log.s(tag='TEST', message='SUCCESS LOG IS COOL')
+log.w(tag='TEST', message='WARNING LOG IS COOL')
+log.save_logs_to_file('logging result')
+log.f(tag='TEST', message='FATAL LOG WILL BE THE LAST IN YOUR ALIVE PROGRAM. That\'s why you should save your logs to a file first', exit_type=ExitType.RAISE_EXCEPTION)
+```
+
+The logging result will be saved to a TXT file. 
+
+```
+---*--- "TESTING LOG SYSTEM" LOGGING RESULT ---*---
+DEBUG -*- 2023-08-22 20:05:15.716821 -*- [TEST]   'DEBUG LOG IS COOL'
+INFO -*- 2023-08-22 20:05:15.716893 -*- [TEST]   'INFO LOG IS COOL'
+ERROR -*- 2023-08-22 20:05:15.716950 -*- [TEST]   'ERROR LOG IS COOL'
+SUCCESS -*- 2023-08-22 20:05:15.716991 -*- [TEST]   'SUCCESS LOG IS COOL'
+WARNING -*- 2023-08-22 20:05:15.717025 -*- [TEST]   'WARNING LOG IS COOL'
+
+----------- *** -----------
+DEBUG LOGS: 1
+INFO LOGS: 1
+WARNING LOGS: 1
+ERROR LOGS: 1
+SUCCESS LOGS: 1
+FATAL LOGS: 0
+
+
+### SAVE DATE: 2023-08-22 20:05:15.717221 ###
 ```
