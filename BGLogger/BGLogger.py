@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import enum
 import os.path
@@ -28,11 +29,12 @@ class ExitType(enum.Enum):
 
 class Log:
 
-    __version__ = "1.2.0"
+    __version__ = "1.3.0"
     __github__ = "https://github.com/BelGray/BGLogger"
 
     def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle, color: bool):
         self.__color = color
+        self.__pattern = "%L -*- %D -*- [%T]   '%M'"
         self.__logs_str = f"---*--- \"{process_name}\" LOGGING RESULT ---*---"
         self.__param = output_style.value
         self.__name = process_name
@@ -46,15 +48,25 @@ class Log:
         self.__success = 0
         self.__fatal = 0
 
+    def set_log_string_pattern(self, pattern: str):
+        """Set log string pattern.
+        %L - log Level
+        %D - log Date
+        %T - log Tag
+        %M - log Message
+        """
+        self.__pattern = pattern
 
-    def save_logs_to_file(self, file_name: str = None):
+    def save_logs_to_file(self, file_name: str = None, remove_existing: bool = False):
+      """Save logs to a TXT file"""
       if self.__record:
         if file_name is None:
             file_name = f'{self.__name}_log_result'
         file_name = file_name.split('.')[0]
         if os.path.exists(file_name + '.txt'):
-            os.remove(file_name + '.txt')
-        with open(file_name + '.txt', 'w') as f:
+            if remove_existing:
+                os.remove(file_name + '.txt')
+        with open(file_name + '.txt', 'w', encoding='utf-8') as f:
             f.write(self.__logs_str)
             f.write(f"\n\n----------- *** -----------\nDEBUG LOGS: {self.__debugs}\nINFO LOGS: {self.__info}\nWARNING LOGS: {self.__warnings}\nERROR LOGS: {self.__errors}\nSUCCESS LOGS: {self.__success}\nFATAL LOGS: {self.__fatal}")
             f.write(f"\n\n\n### SAVE DATE: {datetime.datetime.now()} ###")
@@ -66,7 +78,8 @@ class Log:
         """Debug log"""
         self.__debugs += 1
         log_time = datetime.datetime.now()
-        log_str = f"\nDEBUG -*- {log_time} -*- [{tag}]   '{message}'"
+        LVL = "DEBUG"
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.CYAN if self.__color else None)
@@ -77,7 +90,8 @@ class Log:
         """Info log"""
         self.__info += 1
         log_time = datetime.datetime.now()
-        log_str = f"\nINFO -*- {log_time} -*- [{tag}]   '{message}'"
+        LVL = "INFO"
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.BLUE if self.__color else None)
@@ -88,7 +102,8 @@ class Log:
         """Warning log"""
         self.__warnings += 1
         log_time = datetime.datetime.now()
-        log_str = f"\nWARNING -*- {log_time} -*- [{tag}]   '{message}'"
+        LVL = "WARNING"
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.MUSTARD if self.__color else None)
@@ -99,7 +114,8 @@ class Log:
         """Error log"""
         self.__errors += 1
         log_time = datetime.datetime.now()
-        log_str = f"\nERROR -*- {log_time} -*- [{tag}]   '{message}'"
+        LVL = "ERROR"
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.RED if self.__color else None)
@@ -110,7 +126,8 @@ class Log:
         """Success log"""
         self.__success += 1
         log_time = datetime.datetime.now()
-        log_str = f"\nSUCCESS -*- {log_time} -*- [{tag}]   '{message}'"
+        LVL = "SUCCESS"
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.GREEN if self.__color else None)
@@ -118,10 +135,11 @@ class Log:
             return log_str
 
     def f(self, tag: str, message: str, exit_type: ExitType, exception: Exception = None):
-        """Fatal log"""
+        """Fatal log. After calling this log, the program will be stopped"""
         self.__fatal += 1
         log_time = datetime.datetime.now()
-        log_str = f"\nFATAL -*- {log_time} -*- [{tag}]   '{message}'"
+        LVL = "FATAL"
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.CRIMSON if self.__color else None)
