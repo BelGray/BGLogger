@@ -2,6 +2,7 @@
 import datetime
 import enum
 import os.path
+import glob
 import sys
 
 from BGLogger.BGConsole import BGC
@@ -29,7 +30,7 @@ class ExitType(enum.Enum):
 
 class Log:
 
-    __version__ = "1.3.0"
+    __version__ = "1.3.1"
     __github__ = "https://github.com/BelGray/BGLogger"
 
     def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle, color: bool):
@@ -66,6 +67,9 @@ class Log:
         if os.path.exists(file_name + '.txt'):
             if remove_existing:
                 os.remove(file_name + '.txt')
+            else:
+                num = len(glob.glob(file_name + "*"))
+                file_name = file_name + str(num)
         with open(file_name + '.txt', 'w', encoding='utf-8') as f:
             f.write(self.__logs_str)
             f.write(f"\n\n----------- *** -----------\nDEBUG LOGS: {self.__debugs}\nINFO LOGS: {self.__info}\nWARNING LOGS: {self.__warnings}\nERROR LOGS: {self.__errors}\nSUCCESS LOGS: {self.__success}\nFATAL LOGS: {self.__fatal}")
@@ -79,7 +83,7 @@ class Log:
         self.__debugs += 1
         log_time = datetime.datetime.now()
         LVL = "DEBUG"
-        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.CYAN if self.__color else None)
@@ -91,7 +95,7 @@ class Log:
         self.__info += 1
         log_time = datetime.datetime.now()
         LVL = "INFO"
-        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.BLUE if self.__color else None)
@@ -103,7 +107,7 @@ class Log:
         self.__warnings += 1
         log_time = datetime.datetime.now()
         LVL = "WARNING"
-        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.MUSTARD if self.__color else None)
@@ -115,7 +119,7 @@ class Log:
         self.__errors += 1
         log_time = datetime.datetime.now()
         LVL = "ERROR"
-        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.RED if self.__color else None)
@@ -127,7 +131,7 @@ class Log:
         self.__success += 1
         log_time = datetime.datetime.now()
         LVL = "SUCCESS"
-        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.GREEN if self.__color else None)
@@ -139,7 +143,7 @@ class Log:
         self.__fatal += 1
         log_time = datetime.datetime.now()
         LVL = "FATAL"
-        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
             self.__logs_str += log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.CRIMSON if self.__color else None)
