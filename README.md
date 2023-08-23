@@ -70,6 +70,8 @@ To save logs to a file you should call `save_logs_to_file()`, which has the foll
 |file_name| str  | The file where the logs will be saved                               |
 |remove_existing|bool| Remove all existing TXT files with the same name (By default False) |
 
+Warning! This only works if the `record` attribute in a `Log` object is `True`
+
 Example:
 ```python
 from BGLogger import *
