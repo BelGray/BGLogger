@@ -1,10 +1,10 @@
 ![BGLogger logo](https://media.discordapp.net/attachments/1078425365095133366/1143160563699032165/119_20230821153145.png?width=1037&height=392)
-# BGLogger 1.2.0
+# BGLogger 1.3.3
 BGLogger is a simple module for logging in Python.
 ## How to install the module
 Before using the module, you have to first install it. You can do this using the pip package manager in CMD or another terminal:
-```python
-pip install BGLogger
+```commandline
+pip install BGLogger==1.3.3
 ```
 Or you can move the BGLogger package from repository to your project.
 ## Get started
@@ -63,14 +63,16 @@ log.w(tag='TEST', message='WARNING LOG IS COOL')
 log.f(tag='TEST', message='OH NO! FATAL EXCEPTION!!!', exit_type=ExitType.RAISE_EXCEPTION)
 ```
 ## Save logs to a file
-To save logs to a file you should call `save_logs_to_file()`, which has the following argument:
-|argument|type|description|
-|--------|----|-----------|
-|file_name|str|The file where the logs will be saved|
+To save logs to a file you should call `save_logs_to_file()`, which has the following arguments:
+
+|argument| type | description                                                         |
+|--------|------|---------------------------------------------------------------------|
+|file_name| str  | The file where the logs will be saved                               |
+|remove_existing|bool| Remove all existing TXT files with the same name (By default False) |
 
 Example:
 ```python
-from BGLogger.BGLogger import *
+from BGLogger import *
 
 log = Log(process_name='TESTING LOG SYSTEM', record=True, return_every_log=False, output_style=OutputStyle.UNDERLINE, color=True)
 
@@ -79,7 +81,7 @@ log.i(tag='TEST', message='INFO LOG IS COOL')
 log.e(tag='TEST', message='ERROR LOG IS COOL')
 log.s(tag='TEST', message='SUCCESS LOG IS COOL')
 log.w(tag='TEST', message='WARNING LOG IS COOL')
-log.save_logs_to_file('logging result')
+log.save_logs_to_file(file_name='logging result', remove_existing=False)
 log.f(tag='TEST', message='FATAL LOG WILL BE THE LAST IN YOUR ALIVE PROGRAM. That\'s why you should save your logs to a file first', exit_type=ExitType.RAISE_EXCEPTION)
 ```
 
@@ -103,4 +105,41 @@ FATAL LOGS: 0
 
 
 ### SAVE DATE: 2023-08-22 20:05:15.717221 ###
+```
+
+## Log line template
+BGLogger allows you to create your own log line formatting template. By default, module uses this one:
+```
+%L -*- %D -*- [%T] '%M'
+```
+|placeholder|description|
+|----------|-----------|
+|%L|Level|
+|%D|Date|
+|%T|Tag|
+|%M|Message|
+In the process of processing any log, placeholders are replaced with the necessary values. Example of using the default template:
+```commandline
+DEBUG -*- 2023-08-22 20:05:15.716821 -*- [TEST]   'DEBUG LOG IS COOL'
+```
+If you want to change the template, you should call `set_log_line_template`. This method has the following argument:
+
+|argument|type| description                                                                   |
+|--------|----|-------------------------------------------------------------------------------|
+|pattern|str| Your formatting template for each log line. (Don't forget about placeholders) |
+
+Example of using the method:
+```python
+from BGLogger import *
+
+
+log = Log(process_name='TESTING LOG SYSTEM', record=True, return_every_log=False, output_style=OutputStyle.REGULAR, color=False)
+
+log.set_log_line_template('%L - %D - %M - %T')
+log.d(tag='TEST', message='DEBUG LOG IS COOL')
+```
+
+The output will be as follows:
+```
+DEBUG - 2023-08-23 10:04:22.152884 - DEBUG LOG IS COOL - TEST
 ```
