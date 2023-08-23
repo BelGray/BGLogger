@@ -30,7 +30,7 @@ class ExitType(enum.Enum):
 
 class Log:
 
-    __version__ = "1.3.2"
+    __version__ = "1.3.3"
     __github__ = "https://github.com/BelGray/BGLogger"
 
     def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle, color: bool):
@@ -49,8 +49,8 @@ class Log:
         self.__success = 0
         self.__fatal = 0
 
-    def set_log_string_pattern(self, pattern: str):
-        """Set log string pattern.
+    def set_log_line_template(self, pattern: str):
+        """Set log line template.
         %L - log Level
         %D - log Date
         %T - log Tag
