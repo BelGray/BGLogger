@@ -30,7 +30,7 @@ class ExitType(enum.Enum):
 
 class Log:
 
-    __version__ = "1.3.1"
+    __version__ = "1.3.2"
     __github__ = "https://github.com/BelGray/BGLogger"
 
     def __init__(self, process_name: str, record: bool, return_every_log: bool, output_style: OutputStyle, color: bool):
@@ -83,9 +83,9 @@ class Log:
         self.__debugs += 1
         log_time = datetime.datetime.now()
         LVL = "DEBUG"
-        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
-            self.__logs_str += log_str
+            self.__logs_str += "\n" + log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.CYAN if self.__color else None)
         if self.returning:
             return log_str
@@ -95,9 +95,9 @@ class Log:
         self.__info += 1
         log_time = datetime.datetime.now()
         LVL = "INFO"
-        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
-            self.__logs_str += log_str
+            self.__logs_str += "\n" + log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.BLUE if self.__color else None)
         if self.returning:
             return log_str
@@ -107,9 +107,9 @@ class Log:
         self.__warnings += 1
         log_time = datetime.datetime.now()
         LVL = "WARNING"
-        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
-            self.__logs_str += log_str
+            self.__logs_str += "\n" + log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.MUSTARD if self.__color else None)
         if self.returning:
             return log_str
@@ -119,9 +119,9 @@ class Log:
         self.__errors += 1
         log_time = datetime.datetime.now()
         LVL = "ERROR"
-        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
-            self.__logs_str += log_str
+            self.__logs_str += "\n" + log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.RED if self.__color else None)
         if self.returning:
             return log_str
@@ -131,9 +131,9 @@ class Log:
         self.__success += 1
         log_time = datetime.datetime.now()
         LVL = "SUCCESS"
-        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
-            self.__logs_str += log_str
+            self.__logs_str += "\n" + log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.GREEN if self.__color else None)
         if self.returning:
             return log_str
@@ -143,8 +143,8 @@ class Log:
         self.__fatal += 1
         log_time = datetime.datetime.now()
         LVL = "FATAL"
-        log_str = "\n" + self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
+        log_str = self.__pattern.replace('%L', LVL).replace('%D', str(log_time)).replace('%T', tag).replace('%M', message)
         if self.__record:
-            self.__logs_str += log_str
+            self.__logs_str += "\n" + log_str
         BGC.write(log_str, param=self.__param, color=BGC.Color.CRIMSON if self.__color else None)
         exit_type(message, exception)
