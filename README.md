@@ -118,6 +118,7 @@ BGLogger allows you to create your own log line formatting template. By default,
 |%D|Date|
 |%T|Tag|
 |%M|Message|
+
 In the process of processing any log, placeholders are replaced with the necessary values. Example of using the default template:
 ```commandline
 DEBUG -*- 2023-08-22 20:05:15.716821 -*- [TEST]   'DEBUG LOG IS COOL'
