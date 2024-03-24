@@ -1,4 +1,4 @@
-![BGLogger logo](https://media.discordapp.net/attachments/1078425365095133366/1143160563699032165/119_20230821153145.png?width=1037&height=392)
+![BGLogger logo](https://postimg.cc/7Gf4tJGV)
 # BGLogger 1.3.3
 BGLogger is a simple module for logging in Python.
 ## How to install the module
